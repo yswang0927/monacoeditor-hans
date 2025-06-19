@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yswang-Monaco编辑器汉化处理</title>
+
+    <script src="./main.i18n.js"></script>
+    <script src="./nls.messages.zh-cn.js"></script>
+    <script src="./need-keys.js"></script>
+
+</head>
+
+<body>
+<script>
+// 从 main.i18n.js 中处理得到 key:中文 的映射关系
+let all_hans_kv = {};
+function getKeyValue(obj) {
+    for (var k in obj) {
+        let v = obj[k];
+        if (typeof v === 'string' || typeof v === 'number') {
+            all_hans_kv[k] = v;
+        }
+        else if (typeof v === 'object') {
+            getKeyValue(v);
+        }
+    }
+}
+getKeyValue(hans.contents);
+
+// 找到这个中文值在 _VSCODE_NLS_MESSAGES 中的下标索引
+function getHanValueIndex(v) {
+    for (let i = 0; i < _VSCODE_NLS_MESSAGES.length; i++) {
+        if (_VSCODE_NLS_MESSAGES[i] === v) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+// 从 need_keys 中寻找对应的 key 的中文
+let finalKVHans = {};
+
+for (var k in need_keys) {
+    const han = all_hans_kv[k];
+    if (han !== undefined) {
+        const hanIndex = getHanValueIndex(han);
+        if (hanIndex !== -1) {
+            finalKVHans[k] = hanIndex;
+        } else {
+            finalKVHans[k] = han;
+        }
+    }
+}
+
+finalKVHans['_VSCODE_NLS_MESSAGES'] = _VSCODE_NLS_MESSAGES;
+
+console.log(finalKVHans);
+
+</script>    
+</body>
+</html>
