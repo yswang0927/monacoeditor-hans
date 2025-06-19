@@ -22,4 +22,9 @@ if (typeof data === 'string') {
 5. 这样编译后, monaco编辑器就汉化了.
    
 6. 最终修改后的 `nls.js` 已提供, 可以用于替换 `node_modules/monaco-editor/esm/vs/nls.js`.
+
+效果如下:
+![screen_20250619192908](https://github.com/user-attachments/assets/4eedba30-7d6e-402f-8cc7-96e87c194168)
+
+
    
